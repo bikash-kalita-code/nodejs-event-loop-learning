@@ -1,0 +1,14 @@
+The reason why process.nextTick is not a part of the event loop is that it deosn't just wait for its turn 
+and go through the phases of the event loop.
+At any point if there is a callback in the nextTick queue, it can steal away the attention of the
+event loop. So, it is possible to starve the event loop if we endlessly put callbacks inside the process.nextTick queue.
+
+process.nextTick takes priority over the Promise microtask queue.
+
+Main Takeaways:
+---------------
+The Node.js event loop coordinates work between the call stack and the callback queues
+The Node.js event loop has multiple callback queues
+Don't block the event loop (prefer asynchronous code over synchronous)
+Don't starve the event loop (with recursive calls to process.nextTick)
+Mix and match usage of setTimeout, setImmediate, process.nextTick, and promises with care.
